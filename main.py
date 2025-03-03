@@ -14,7 +14,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pac-Man Evolution")
 
 # Цвета
-color0 = (100, 100, 100)
+color0 = pygame.Color(100, 100, 100, 0)  # Прозрачный цвет (альфа = 0)
 color1 = (10, 50, 50)
 color2 = (10, 70, 70)
 color3 = (10, 90, 90)
@@ -23,7 +23,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
-YELLOW = (255, 255, 0)
+YELLOW = (155, 155, 0)
 ORANGE = (255, 165, 0)  # Преграда 1 - оранжевая
 
 # Загрузка спрайтов
@@ -31,6 +31,10 @@ pacman_sprite = pygame.image.load("pacman.png")  # Спрайт персонаж
 monster_sprite = pygame.image.load("monster.png")  # Спрайт монстра
 pacman_sprite = pygame.transform.scale(pacman_sprite, (CELL_SIZE, CELL_SIZE))
 monster_sprite = pygame.transform.scale(monster_sprite, (CELL_SIZE, CELL_SIZE))
+
+# Загрузка изображения фона
+background_image = pygame.image.load("background.png")
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))  # Масштабируем под размер экрана
 
 # Матрица игрового поля в виде строки
 maze_string = (
@@ -61,6 +65,8 @@ maze = [list(map(int, maze_string[i:i + MAZE_WIDTH])) for i in range(0, len(maze
 
 # Количество зерен
 KS = 100
+# Радиус зерен
+SEED_RADIUS = 8
 
 # Функция для размещения зерен на поле
 def place_seeds(maze, ks):
@@ -144,7 +150,7 @@ def draw_maze():
         for col_index, cell in enumerate(row):
             color = None
             if cell == 0:
-                color = color0
+                color = color0  # Прозрачный цвет
             elif cell == 1:
                 color = color1
             elif cell == 2:
@@ -156,17 +162,29 @@ def draw_maze():
             elif cell == 5:  # Зерна
                 color = YELLOW
 
-            if color:
-                pygame.draw.rect(
+            if color and cell != 5:  # Отдельно обрабатываем зерна
+                rect = pygame.Surface((CELL_SIZE - 1, CELL_SIZE - 1),
+                                      pygame.SRCALPHA)  # Создаем поверхность с альфа-каналом
+                rect.fill(color)  # Заполняем поверхность цветом
+                screen.blit(rect, (col_index * CELL_SIZE + 1, row_index * CELL_SIZE + 1))
+
+                # Отрисовка зерен
+            if cell == 5:
+                pygame.draw.circle(
                     screen,
-                    color,
-                    (col_index * CELL_SIZE+1, row_index * CELL_SIZE+1, CELL_SIZE-1, CELL_SIZE-1),
+                    YELLOW,
+                    (
+                        col_index * CELL_SIZE + CELL_SIZE // 2,  # Центр по X
+                        row_index * CELL_SIZE + CELL_SIZE // 2  # Центр по Y
+                    ),
+                    SEED_RADIUS
                 )
+
 
 # Отрисовка счетчика зерен
 def draw_seed_counter(screen, collected_seeds, total_seeds):
     font = pygame.font.SysFont(None, 36)
-    text = font.render(f"ОЧКИ: {collected_seeds}/{total_seeds}", True, WHITE)
+    text = font.render(f"SEEDS: {collected_seeds:03}/{total_seeds}", True, WHITE)
     screen.blit(text, (WIDTH - text.get_width() - 10, HEIGHT - text.get_height() - 10))
 
 # Основной игровой цикл
@@ -176,7 +194,8 @@ player_moved = False  # Флаг, указывающий, что игрок сд
 victory = False  # Флаг, указывающий, что игрок выиграл
 
 while running:
-    screen.fill(color0)
+    # Отрисовка фона
+    screen.blit(background_image, (0, 0))
 
     # Обработка событий
     for event in pygame.event.get():

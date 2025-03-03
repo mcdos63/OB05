@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3972f3ce-0129-4cbc-bb8f-2b3aa69b6ecd" name="Changes" comment="new" />
+    <list default="true" id="3972f3ce-0129-4cbc-bb8f-2b3aa69b6ecd" name="Changes" comment="new">
+      <change afterPath="$PROJECT_DIR$/44b53073cb87aa2a5ac7d28c61c7d69f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Girls_(34)-1024x576-MM-80.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/background.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,6 +61,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Евгений\Documents\GitHub\OB05" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Евгений\Documents\GitHub\OB05" />
     </key>
