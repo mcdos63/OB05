@@ -48,7 +48,7 @@ maze_string = (
     "300021000000000300000000000003"
     "320001000000000300000000000003"
     "300001222233330333333333000003"
-    "3221003300000000300000000000333"
+    "322100330000000030000000000333"
     "300003000000200300033333330333"
     "322000002000200002200030000003"
     "300030322323333303300030022333"
@@ -58,6 +58,23 @@ maze_string = (
 
 # Преобразование строки в матрицу
 maze = [list(map(int, maze_string[i:i + MAZE_WIDTH])) for i in range(0, len(maze_string), MAZE_WIDTH)]
+
+# Количество зерен
+KS = 100
+
+# Функция для размещения зерен на поле
+def place_seeds(maze, ks):
+    empty_cells = [(x, y) for y, row in enumerate(maze) for x, cell in enumerate(row) if cell == 0]
+    random.shuffle(empty_cells)  # Перемешиваем пустые клетки
+    for i in range(min(ks, len(empty_cells))):
+        x, y = empty_cells[i]
+        maze[y][x] = 5  # Размещаем зерно
+
+# Размещение зерен
+place_seeds(maze, KS)
+
+# Счетчик собранных зерен
+collected_seeds = 0
 
 # Первоначальные позиции
 pacman_x, pacman_y = 1, 1  # Начальная позиция персонажа
@@ -106,7 +123,7 @@ def find_path(start_x, start_y, target_x, target_y):
             nx, ny = x + dx, y + dy
             if (
                 0 <= nx < MAZE_WIDTH and 0 <= ny < MAZE_HEIGHT and
-                not visited[ny][nx] and maze[ny][nx] in [0, 1]
+                not visited[ny][nx] and maze[ny][nx] in [0, 1, 5]  # Учитываем зерна как проходимые
             ):
                 queue.append((nx, ny))
                 visited[ny][nx] = True
@@ -136,6 +153,8 @@ def draw_maze():
                 color = color3
             elif cell == 4:
                 color = BLUE
+            elif cell == 5:  # Зерна
+                color = YELLOW
 
             if color:
                 pygame.draw.rect(
@@ -143,6 +162,12 @@ def draw_maze():
                     color,
                     (col_index * CELL_SIZE+1, row_index * CELL_SIZE+1, CELL_SIZE-1, CELL_SIZE-1),
                 )
+
+# Отрисовка счетчика зерен
+def draw_seed_counter(screen, collected_seeds, total_seeds):
+    font = pygame.font.SysFont(None, 36)
+    text = font.render(f"ОЧКИ: {collected_seeds}/{total_seeds}", True, WHITE)
+    screen.blit(text, (WIDTH - text.get_width() - 10, HEIGHT - text.get_height() - 10))
 
 # Основной игровой цикл
 clock = pygame.time.Clock()
@@ -172,9 +197,14 @@ while running:
             new_pacman_x += 1
 
         # Проверка столкновений персонажа с лабиринтом
-        if maze[new_pacman_y][new_pacman_x] in [0, 4]:  # Персонаж может двигаться только по 0 или 4
+        if maze[new_pacman_y][new_pacman_x] in [0, 4, 5]:  # Персонаж может двигаться по 0, 4 или 5
             pacman_x, pacman_y = new_pacman_x, new_pacman_y
             player_moved = True  # Игрок сделал ход
+
+            # Проверка на сбор зерна
+            if maze[pacman_y][pacman_x] == 5:
+                collected_seeds += 1  # Увеличиваем счетчик зерен
+                maze[pacman_y][pacman_x] = 0  # Убираем зерно
 
         # Проверка победы
         if maze[pacman_y][pacman_x] == 4:
@@ -195,7 +225,6 @@ while running:
 
                 # Проверка на преграду 2
                 if maze[next_y][next_x] == 2:
-                    # Увеличиваем счетчик попыток для этой преграды
                     key = (next_x, next_y)
                     if key not in monster_attempts:
                         monster_attempts[key] = 0
@@ -215,7 +244,7 @@ while running:
                             x, y = random.choice(neighbors)
                             maze[y][x] = 2
 
-                elif maze[next_y][next_x] in [0, 1]:
+                elif maze[next_y][next_x] in [0, 1, 5]:  # Монстр может проходить через зерна
                     monster_x, monster_y = next_x, next_y
 
         player_moved = False  # Переход хода к игроку
@@ -231,6 +260,9 @@ while running:
     # Отрисовка персонажа и монстра
     screen.blit(pacman_sprite, (pacman_x * CELL_SIZE, pacman_y * CELL_SIZE))
     screen.blit(monster_sprite, (monster_x * CELL_SIZE, monster_y * CELL_SIZE))
+
+    # Отрисовка счетчика зерен
+    draw_seed_counter(screen, collected_seeds, KS)
 
     # Создание частиц при победе
     if victory:
@@ -252,6 +284,5 @@ while running:
 
 # Завершение Pygame
 pygame.quit()
-s=1234567890**2424
 input("Press Enter to continue...")
 sys.exit()
