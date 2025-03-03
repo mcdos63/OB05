@@ -14,6 +14,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pac-Man Evolution")
 
 # Цвета
+color0 = (100, 100, 100)
+color1 = (10, 50, 50)
+color2 = (10, 70, 70)
+color3 = (10, 90, 90)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -59,6 +63,29 @@ maze = [list(map(int, maze_string[i:i + MAZE_WIDTH])) for i in range(0, len(maze
 pacman_x, pacman_y = 1, 1  # Начальная позиция персонажа
 monster_x, monster_y = 27, 18  # Начальная позиция монстра
 
+# Класс для создания частиц
+class Particle:
+    def __init__(self, x, y, color):
+        self.x = x
+        self.y = y
+        self.color = color
+        self.size = random.randint(4, 8)
+        self.speed_x = random.uniform(-1, 1)
+        self.speed_y = random.uniform(-2, -0.5)  # Частицы движутся вверх
+
+    def update(self):
+        self.x += self.speed_x
+        self.y += self.speed_y
+        self.size -= 0.1  # Уменьшение размера частицы со временем
+        if self.size <= 0:
+            particles.remove(self)
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), int(self.size))
+
+# Список для хранения частиц
+particles = []
+
 # Счетчики
 monster_attempts = {}  # Словарь для подсчета попыток преодоления преград 2
 monster_move_counter = 0  # Счетчик ходов для монстра (для замедления)
@@ -99,12 +126,14 @@ def draw_maze():
     for row_index, row in enumerate(maze):
         for col_index, cell in enumerate(row):
             color = None
-            if cell == 0 or cell == 1:
-                color = WHITE if cell == 0 else ORANGE  # Преграда 1 - оранжевая
+            if cell == 0:
+                color = color0
+            elif cell == 1:
+                color = color1
             elif cell == 2:
-                color = GREEN
+                color = color2
             elif cell == 3:
-                color = RED
+                color = color3
             elif cell == 4:
                 color = BLUE
 
@@ -119,6 +148,7 @@ def draw_maze():
 clock = pygame.time.Clock()
 running = True
 player_moved = False  # Флаг, указывающий, что игрок сделал ход
+victory = False  # Флаг, указывающий, что игрок выиграл
 
 while running:
     screen.fill(BLACK)
@@ -149,6 +179,7 @@ while running:
         # Проверка победы
         if maze[pacman_y][pacman_x] == 4:
             print("Вы выиграли!")
+            victory = True
             running = False
 
     elif player_moved:  # Ход монстра
@@ -200,6 +231,18 @@ while running:
     # Отрисовка персонажа и монстра
     screen.blit(pacman_sprite, (pacman_x * CELL_SIZE, pacman_y * CELL_SIZE))
     screen.blit(monster_sprite, (monster_x * CELL_SIZE, monster_y * CELL_SIZE))
+
+    # Создание частиц при победе
+    if victory:
+        for _ in range(10):
+            particles.append(Particle(pacman_x * CELL_SIZE, pacman_y * CELL_SIZE, BLUE))
+
+    # Обновление и отрисовка частиц
+    for particle in particles[:]:
+        particle.update()
+        particle.draw(screen)
+        if particle.size <= 0:
+            particles.remove(particle)
 
     # Обновление экрана
     pygame.display.flip()
