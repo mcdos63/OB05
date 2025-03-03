@@ -7,7 +7,7 @@ import random
 pygame.init()
 
 # Настройки экрана
-CELL_SIZE = 30  # Размер ячейки
+CELL_SIZE = 40  # Размер ячейки
 MAZE_WIDTH, MAZE_HEIGHT = 30, 20  # Размеры матрицы
 WIDTH, HEIGHT = MAZE_WIDTH * CELL_SIZE, MAZE_HEIGHT * CELL_SIZE
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -27,8 +27,8 @@ YELLOW = (255, 255, 0)
 ORANGE = (255, 165, 0)  # Преграда 1 - оранжевая
 
 # Загрузка спрайтов
-pacman_sprite = pygame.image.load("pacman.png")  # Спрайт персонажа (30x30)
-monster_sprite = pygame.image.load("monster.png")  # Спрайт монстра (30x30)
+pacman_sprite = pygame.image.load("pacman.png")  # Спрайт персонажа
+monster_sprite = pygame.image.load("monster.png")  # Спрайт монстра
 pacman_sprite = pygame.transform.scale(pacman_sprite, (CELL_SIZE, CELL_SIZE))
 monster_sprite = pygame.transform.scale(monster_sprite, (CELL_SIZE, CELL_SIZE))
 
@@ -36,23 +36,23 @@ monster_sprite = pygame.transform.scale(monster_sprite, (CELL_SIZE, CELL_SIZE))
 maze_string = (
     "333333333333333333333333333333"
     "300000000000000300000030000003"
-    "302001020002000300300030000003"
-    "300001000001000300200000320003"
-    "323233300001000000200000300003"
-    "300001033333333333322332330003"
-    "300001000000000000000000000003"
-    "300001000033333333333333333333"
+    "302221020002000300300030000003"
+    "300021000001000300200000320003"
+    "320233300001000000200000300003"
+    "300000003333333333322332330003"
+    "300321000000000000000000000003"
+    "300200000033333333333333333333"
     "302222100030000000000000000003"
     "300000000030000300000000000003"
-    "300001000000000300000000333333"
-    "300001000000000300000000000003"
-    "300001000000000300000000000003"
+    "303301220000022300000000333333"
+    "300021000000000300000000000003"
+    "320001000000000300000000000003"
     "300001222233330333333333000003"
-    "300003300000000300000000000333"
-    "300003000000000300033333333333"
-    "300000000000000000220000000003"
-    "300033333333333333300000000003"
-    "300000000000000000000000000043"
+    "3221003300000000300000000000333"
+    "300003000000200300033333330333"
+    "322000002000200002200030000003"
+    "300030322323333303300030022333"
+    "300000000000000000003000000043"
     "333333333333333333333333333333"
 )
 
@@ -141,7 +141,7 @@ def draw_maze():
                 pygame.draw.rect(
                     screen,
                     color,
-                    (col_index * CELL_SIZE, row_index * CELL_SIZE, CELL_SIZE, CELL_SIZE),
+                    (col_index * CELL_SIZE+1, row_index * CELL_SIZE+1, CELL_SIZE-1, CELL_SIZE-1),
                 )
 
 # Основной игровой цикл
@@ -151,7 +151,7 @@ player_moved = False  # Флаг, указывающий, что игрок сд
 victory = False  # Флаг, указывающий, что игрок выиграл
 
 while running:
-    screen.fill(BLACK)
+    screen.fill(color0)
 
     # Обработка событий
     for event in pygame.event.get():
@@ -252,4 +252,6 @@ while running:
 
 # Завершение Pygame
 pygame.quit()
+s=1234567890**2424
+input("Press Enter to continue...")
 sys.exit()
