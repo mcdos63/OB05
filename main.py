@@ -23,7 +23,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
-YELLOW = (155, 155, 0)
+YELLOW = (200, 200, 0)
 ORANGE = (255, 165, 0)  # Преграда 1 - оранжевая
 
 # Загрузка спрайтов
@@ -158,7 +158,7 @@ def draw_maze():
             elif cell == 3:
                 color = color3
             elif cell == 4:
-                color = BLUE
+                color = (monster_move_counter % 2*255,monster_move_counter % 2*255, 255)
             elif cell == 5:  # Зерна
                 color = YELLOW
 
@@ -299,7 +299,7 @@ while running:
     pygame.display.flip()
 
     # Ограничение FPS
-    clock.tick(10)
+    clock.tick(15)
 
 # Завершение Pygame
 pygame.quit()

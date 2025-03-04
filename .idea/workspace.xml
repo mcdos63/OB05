@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3972f3ce-0129-4cbc-bb8f-2b3aa69b6ecd" name="Changes" comment="new">
-      <change afterPath="$PROJECT_DIR$/44b53073cb87aa2a5ac7d28c61c7d69f.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Girls_(34)-1024x576-MM-80.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/background.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -56,7 +53,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.codeium.enabled": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Евгений/Documents/GitHub/OB05",
+    "last_opened_file_path": "C:/Users/Евгений/PycharmProjects/pythonProject",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
@@ -152,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741038444842</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="new">
+      <option name="closed" value="true" />
+      <created>1741041204351</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1741041204351</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
