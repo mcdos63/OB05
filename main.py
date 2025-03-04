@@ -24,11 +24,11 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 YELLOW = (200, 200, 0)
-ORANGE = (255, 165, 0)  # Преграда 1 - оранжевая
+ORANGE = (255, 165, 0)
 
 # Загрузка спрайтов
-pacman_sprite = pygame.image.load("pacman.png")  # Спрайт персонажа
-monster_sprite = pygame.image.load("monster.png")  # Спрайт монстра
+pacman_sprite = pygame.image.load("pacman1.png")  # Спрайт персонажа
+monster_sprite = pygame.image.load("monster1.png")  # Спрайт монстра
 pacman_sprite = pygame.transform.scale(pacman_sprite, (CELL_SIZE, CELL_SIZE))
 monster_sprite = pygame.transform.scale(monster_sprite, (CELL_SIZE, CELL_SIZE))
 
